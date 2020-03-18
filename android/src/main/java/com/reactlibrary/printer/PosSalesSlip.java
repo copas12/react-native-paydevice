@@ -107,11 +107,6 @@ public class PosSalesSlip {
     //print image
     private void printLogo() {
         try {
-            //NOTE:For seriaport printer,need wait printer buffer flush before bitmap print if bitmap is not the first print
-            //try {
-            //	Thread.sleep(xxx);
-            //} catch(InterruptedException ie) {
-            //}
 
             byte[] decodedString = Base64.decode(mainLogoToPrint, Base64.DEFAULT);
             Bitmap logo = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
@@ -119,12 +114,7 @@ public class PosSalesSlip {
             final int totalDots = mPrinterManager.getDotsPerLine();
             int xPos = (totalDots - logo.getWidth()) >> 1;//horizontal centre
             int yPos = 0;
-            //NOTE: maybe different bitmap needs different heating param
-            ////Note: width<dots_per_line. please resize the bmp size to small if printing bmp have issue
-            //mPrinterManager.cmdBitmapPrint(logo, PrinterManager.BITMAP_ZOOM_NONE, xPos, 0);
-            //mPrinterManager.cmdLineFeed();
 
-            //the more black area of bitmap, the more delay(slower speed)
             mPrinterManager.cmdBitmapPrintEx(logo, xPos, yPos);
             mPrinterManager.cmdLineFeed();
         } catch (SmartPosException e) {
